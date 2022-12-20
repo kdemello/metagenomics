@@ -11,6 +11,7 @@ mkdir new
 awk '/^>/ {print substr($0,2)}' "$reference1_filename" > new/reference1_references.list
 awk '/^>/ {print substr($0,2)}' "$reference2_filename" > new/reference2_references.list
 
+echo 'reference files read'
 # Convert all BAM files to SAM files and move them to the new directory
 for bam_filename in *.bam; do
   # Extract the base name of the BAM file (without the .bam extension)
@@ -20,6 +21,7 @@ for bam_filename in *.bam; do
   samtools view -h "$bam_filename" -o "new/${base_name}.sam"
 done
 
+echo 'sam files created'
 # Create the list of SAM filenames
 ls new/*.sam > new/sam_filenames.list
 
@@ -43,3 +45,4 @@ while read sam_filename; do
     fi
   done < "${sam_filename}_references"
 done
+echo 'task finished'
